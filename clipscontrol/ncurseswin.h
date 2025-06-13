@@ -128,8 +128,20 @@ public:
 	void setWatchFlags(int flags);
 
 	/**
+	 * Gets the current working path of ClipsServer
+	 */
+	std::string getServerPath();
+
+	/**
+	 * Sets the current working path of ClipsServer
+	 * @param path The current working path of ClipsServer
+	 */
+	void setServerPath(const std::string& path);
+
+
+	/**
 	 * Sets the status of the rosclips node
-	 * @param status The status of the rosclips node
+	 * @param status The status of the server node
 	 */
 	void setCLIPSStatus(const CLIPSStatus& status);
 
@@ -216,7 +228,7 @@ private:
 	std::string prevCmd;
 	std::string prevFact;
 	std::string prevLdFile;
-	std::string prevPath;
+	std::string serverPath;
 	std::string prevQuery;
 	int runN;
 	int quickMenuIndex;

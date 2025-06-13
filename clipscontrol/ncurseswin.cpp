@@ -9,6 +9,7 @@
 #include "ncfilepickermw.h"
 #include <signal.h>
 #include <thread>
+#include <boost/filesystem.hpp>
 
 #define ctrl(x) ((x) & 0x1f)
 #define CMD_MARK 0x02
@@ -26,7 +27,7 @@ void ctrlc_handler(int signum) {}
 ** ** ****************************************************************/
 NCursesWin::NCursesWin() :
 	exit(false), top(NULL), mid(NULL), bottom(NULL), dia(NULL),
-	headingC("CLIPS Control"), headingR("rosclips: OFF"),
+	headingC("CLIPS Control"), headingR("CLIPS Server: OFF"),
 	watchFlags(-1), runN(0), quickMenuIndex(1),
 	currMod(KPMode::Default), inputAction(InputAction::None),
 	clipsStatus(CLIPSStatus::Offline)
@@ -237,13 +238,13 @@ void NCursesWin::handleKeyDefault(const uint32_t& c){
 			break;
 
 		case 'O': case 'o':
-			dia = new NCFilePickerMW(".", {".clp", ".dat"});
+			dia = new NCFilePickerMW(serverPath, {".clp", ".dat"});
 			shiftToDialogMode();
 			break;
 
 		case 'P': case 'p':
 			inputAction = InputAction::Path;
-			inputBuffer = std::string(prevPath);
+			inputBuffer = std::string(serverPath);
 			shiftToInputMode("CLP path: ");
 			break;
 
@@ -386,10 +387,10 @@ void NCursesWin::handleInputBS(){
 void NCursesWin::handleInputNL(){
 	switch(inputAction){
 		case InputAction::Path:
-			sendPath(inputBuffer);
+			sendPath( inputBuffer );
 			break;
 		case InputAction::Load:
-			sendLoad(inputBuffer);
+			sendLoad( inputBuffer );
 			break;
 		case InputAction::RawCmd:
 			sendCommand(inputBuffer);
@@ -425,7 +426,6 @@ void NCursesWin::savePreviousInput(){
 			prevFact = inputBuffer;
 			break;
 		case InputAction::Path:
-			prevPath = inputBuffer;
 			break;
 		case InputAction::Run:
 			runN = std::stoi(inputBuffer);
@@ -654,6 +654,14 @@ void NCursesWin::resetBottomTglWatches(){
 	updateBottom("Toggle watches", options);
 }
 
+std::string NCursesWin::getServerPath(){
+	return serverPath;
+}
+
+
+void NCursesWin::setServerPath(const std::string& path){
+	serverPath = path;
+}
 
 void NCursesWin::setWatchFlags(int flags){
 	if(flags == watchFlags) return;
@@ -665,7 +673,7 @@ void NCursesWin::setWatchFlags(int flags){
 void NCursesWin::setCLIPSStatus(const CLIPSStatus& status){
 	if(status == clipsStatus) return;
 	clipsStatus = status;
-	headingR = "rosclips: ";
+	headingR = "CLIPS Server: ";
 	if(status == CLIPSStatus::Online){
 		print(headingR + "Online\n");
 		headingR+= "ON";
@@ -679,7 +687,7 @@ void NCursesWin::setCLIPSStatus(const CLIPSStatus& status){
 
 
 void NCursesWin::shiftToDefaultMode(){
-	if( !dia->isVisible() ){
+	if( (dia != NULL) && !dia->isVisible() ){
 		delete dia;
 		dia = NULL;
 		wrefresh(mid);
