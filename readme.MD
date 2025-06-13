@@ -1,5 +1,5 @@
-# `tcpCLIPS64`: A Server/Client CLIPS 6.4.1 wrapper using TCP sockets.
-A ROS2 interface for CLIPS 6.4.1 (version of 4/8/23).
+# `rosclips`: A ROS2 interface node for CLIPS 6.4.1
+This repo contains a ROS2 interface for CLIPS 6.4.1 (version of 4/8/23).
 This CLIPS solution is purely written in C and includes no patches, fixes, or anything.
 The standard is C++14.
 
