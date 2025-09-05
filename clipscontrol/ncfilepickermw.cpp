@@ -141,7 +141,7 @@ void NCFilePickerMW::draw(){
 			if(fs::is_directory(p)) pname+= "/";
 			if( pname.length() > (cols -2) )
 				pname = pname.substr(0, cols-2);
-			mvwprintw(win, 1+i, 1, pname.c_str());
+			mvwprintw(win, 1+i, 1, "%s", pname.c_str());
 		}
 		wattroff(win, A_REVERSE);
 	}
@@ -154,7 +154,7 @@ void NCFilePickerMW::draw(){
 void NCFilePickerMW::drawTitle(){
 	std::string title(" Open CLIPS file ");
 	int x = (cols - title.length())/2;
-	mvwprintw(win, 0, x, title.c_str());
+	mvwprintw(win, 0, x, "%s", title.c_str());
 }
 
 
