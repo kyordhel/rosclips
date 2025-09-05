@@ -1,0 +1,9 @@
+# Ignore everything
+*
+# But these files
+!.gitignore
+!.gitattributes
+# And these filetypes
+!*.srv
+# Even if they are in subdirectories
+!**/
