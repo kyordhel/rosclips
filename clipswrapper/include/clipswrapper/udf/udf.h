@@ -13,6 +13,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 #include <functional>
 
 #include "type.h"

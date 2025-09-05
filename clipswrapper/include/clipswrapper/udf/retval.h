@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 #include "type.h"
 
 namespace clips{ namespace udf{

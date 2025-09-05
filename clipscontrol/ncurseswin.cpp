@@ -154,7 +154,7 @@ void NCursesWin::resize(){
 	wresize(mid, rows-6, cols);
 	wclear(mid); wmove(mid, 0, 0);
 	for(auto& line: history)
-		wprintw(mid, (trimLines ? line.substr(0, cols) : line).c_str() );
+		wprintw(mid, "%s", (trimLines ? line.substr(0, cols) : line).c_str() );
 	wrefresh(mid);
 
 	mvwin(bottom, rows-4, 0);
@@ -442,12 +442,12 @@ void NCursesWin::print(const std::string& s){
 void NCursesWin::printmid(const std::string& str, const bool& log){
 	history.push_back(str);
 	if(!trimLines)
-		wprintw(mid, str.c_str() );
+		wprintw(mid, "%s", str.c_str() );
 	else{
 		int rows, cols;
 		getmaxyx(mid, rows, cols);
 		std::string s = str.substr(0, cols);
-		wprintw(mid, s.c_str() );
+		wprintw(mid, "%s", s.c_str() );
 	}
 	wrefresh(mid);
 	if(dia) dia->draw();
@@ -508,7 +508,7 @@ void NCursesWin::resetBottomInput(const std::string& prompt){
 
 	inputPrompt = prompt;
 	wmove(bottom, 0, prompt.length());
-	wprintw(bottom, inputBuffer.c_str());
+	wprintw(bottom, "%s", inputBuffer.c_str());
 	curs_set(2);
 	wrefresh(mid);
 	wrefresh(bottom);

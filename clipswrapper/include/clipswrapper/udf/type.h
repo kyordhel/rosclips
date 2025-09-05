@@ -11,6 +11,8 @@
 #define __CLIPSWRAPPERUDF_TYPE_H__
 #pragma once
 
+#include <cstdint>
+
 namespace clips{ namespace udf{
 
 enum class Type : uint16_t{
